@@ -1,0 +1,97 @@
+- name: Install kubernetes packages
+  hosts: "{{ run_hosts }}"
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: Kubernetes yum repo
+      ansible.builtin.yum_repository:
+        name: Kubernetes
+        description: Kubernetes
+        baseurl: https://pkgs.k8s.io/core:/stable:/v1.37/rpm/
+        gpgcheck: true
+        gpgkey: https://pkgs.k8s.io/core:/stable:/v1.37/rpm/repodata/repomd.xml.key
+        exclude:
+          - kubelet
+          - kubeadm
+          - kubectl
+          - cri-tools
+          - kubernetes-cni
+
+    - name: Docker repo
+      ansible.builtin.yum_repository:
+        name: docker-ce-stable
+        description: Docker CE Stable - x86_64
+        baseurl: https://download.docker.com/linux/alma/9/x86_64/stable
+        gpgcheck: true
+        gpgkey: https://download.docker.com/linux/alma/gpg
+
+    - name: Clean cache
+      ansible.builtin.command: dnf clean all
+      changed_when: false
+
+    - name: Install Kubernetes and container runtime packages
+      ansible.builtin.dnf:
+        disable_excludes: all
+        name:
+          - containerd.io
+          - kubectl
+          - kubeadm
+          - kubelet
+        state: present
+
+    - name: Add hosts mapping
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        search_string: "10.52.2.200"
+        line: "10.52.2.200 cluster-endpoint"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Generate containerd configuration
+      ansible.builtin.shell:
+        cmd: containerd config default > /etc/containerd/config.toml
+      changed_when: true
+      notify: Restart containerd
+
+    - name: Configure containerd systemd cgroups
+      ansible.builtin.replace:
+        path: /etc/containerd/config.toml
+        regexp: '^(\s*SystemdCgroup\s*=\s*)false\s*$'
+        replace: '\1true'
+      notify: Restart containerd
+
+    - name: Set net.ipv4.ip_forward to 1 persistently
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: true
+
+    - name: Disable all active swap
+      ansible.builtin.command: swapoff -a
+      when: ansible_swaptotal_mb | int > 0
+      changed_when: true
+
+    - name: Disable swap entries in /etc/fstab
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^(\s*[^#]\S+\s+swap\s+\S+.*)$'
+        replace: '# \1'
+        backup: true
+
+    - name: Start containerd
+      ansible.builtin.service:
+        name: containerd
+        state: started
+        enabled: true
+
+  handlers:
+
+    - name: Restart containerd
+      ansible.builtin.systemd:
+        name: containerd
+        state: restarted
