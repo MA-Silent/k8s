@@ -1,0 +1,83 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: home-router
+spec:
+  timers:
+    holdTimeSeconds: 9
+    keepAliveTimeSeconds: 3
+
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: home-bgp
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: linux
+
+  bgpInstances:
+    - name: "default"
+      localASN: 65001
+
+      peers:
+        - name: "home-router"
+          peerASN: 65000
+          peerAddress: "10.52.2.1"
+          peerConfigRef:
+            name: home-router
+
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "ingress"
+spec:
+  blocks:
+  - start: 10.52.30.1
+    stop: 10.52.30.254
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPAdvertisement
+metadata:
+  name: lb-ip
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchLabels:
+          advertise: bgp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-lb
+  namespace: cilium-test-1
+  labels:
+    advertise: bgp
+spec:
+  type: LoadBalancer
+  selector:
+    name: echo-same-node
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+

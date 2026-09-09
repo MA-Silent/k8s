@@ -24,3 +24,9 @@ ansible packages.yaml -i inventory.ini -e run_hosts="kube-X" --vault-pass-file=~
 ```sh
 kubeadm init --control-plane-endpoint=cluster-endpoint
 ```
+
+### Extra info
+
+Cilium pod networking
+
+kgateway for ingress
