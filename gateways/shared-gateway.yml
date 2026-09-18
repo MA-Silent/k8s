@@ -1,0 +1,21 @@
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: shared-gateway
+  namespace: default
+spec:
+  gatewayClassName: kgateway
+  listeners:
+  - protocol: HTTPS
+    port: 443
+    hostname: "*.kube.ruitenbeek.dev"
+    name: https
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - kind: Secret
+          group: ""
+          name: wild-kube-cert
+    allowedRoutes:
+      namespaces:
+        from: All

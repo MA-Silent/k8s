@@ -60,8 +60,11 @@ spec:
         addresses:
           - LoadBalancerIP
       selector:
-        matchLabels:
-          advertise: bgp
+        matchExpressions:
+          - key: somekey
+            operator: NotIn
+            values:
+              - never-used-value
 
 ---
 apiVersion: v1
