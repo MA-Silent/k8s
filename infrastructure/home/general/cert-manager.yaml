@@ -15,3 +15,17 @@ spec:
             apiTokenSecretRef:
               name: cloudflare-api-token-secret
               key: api-token
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kube-ruitenbeek-dev-certificate
+  namespace: default
+spec:
+  secretName: wild-kube-cert
+  issuerRef:
+    name: acme-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.kube.ruitenbeek.dev'
