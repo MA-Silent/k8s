@@ -15,3 +15,8 @@ spec:
       copy:
         - from: "@monorepo/infrastructure/**"
           to: "@artifact/"
+    - name: secrets
+      originRevision: "@monorepo"
+      copy:
+        - from: "@monorepo/encrypted-secrets/**"
+          to: "@artifact/"
