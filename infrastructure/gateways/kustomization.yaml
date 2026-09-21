@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - shared-gateway.yml
   - ldap-loadbalencer.yml
-  - 2nd-shared-gateway.yml
