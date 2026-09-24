@@ -47,6 +47,8 @@ spec:
             value: '7z'
           - name: RCLONE_GLOBAL_FLAG
             value: '--config /config/rclone.conf'
+          - name: RCLONE_REMOTE
+            value: 'r2:/BitwardenBackup'
           - name: ZIP_PASSWORD
             valueFrom:
               secretKeyRef: 
