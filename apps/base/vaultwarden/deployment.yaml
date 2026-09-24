@@ -50,7 +50,7 @@ spec:
           - name: RCLONE_REMOTE_NAME
             value: 'r2'
           - name: RCLONE_REMOTE_DIR
-            value: '/BitwardenBackup/'
+            value: '/vaultwarden-backup/'
           - name: ZIP_PASSWORD
             valueFrom:
               secretKeyRef: 
