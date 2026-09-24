@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  labels:
+    app: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - name: vaultwarden
+          image: vaultwarden/server:1.37.3-alpine
+          volumeMounts:
+            - name: vaultwarden
+              mountPath: /data
+          ports:
+          - containerPort: 80
+          env:
+          - name: SIGNUPS_ALLOWED
+            value: 'false'
+          envFrom:
+          - secretRef:
+            name: vaultwarden-admintoken
+      initContainers:
+        - name: vault-backup
+          image: ttionya/vaultwarden-backup:1.27.1
+          restartPolicy: Always
+          volumeMounts:
+            - name: vaultwarden
+              mountPath: /bitwarden/data
+            - name: rclone-config
+              mountPath: /config/
+          env: 
+          - name: CRON
+            value: '0 6 * * *'
+          - name: ZIP_TYPE
+            value: '7z'
+          - name: ZIP_PASSWORD
+            valueFrom:
+              secretRef: 
+                name: vaultwarden-secrets
+                key: zip_password
+      volumes:
+        - name: vaultwarden
+          persistentVolumeClaim:
+            claimName: vaultwarden-pvc
+        - name: rclone-config
+          secret:
+            secretName: vw-rclone-config
