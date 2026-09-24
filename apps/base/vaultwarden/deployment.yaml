@@ -63,3 +63,15 @@ spec:
         - name: rclone-config
           secret:
             secretName: vw-rclone-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaultwarden
+spec:
+  selector:
+    app: vaultwarden
+  ports:
+    - port: 80
+      targetPort: 80
