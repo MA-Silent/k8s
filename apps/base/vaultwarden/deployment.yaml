@@ -37,7 +37,9 @@ spec:
             - name: vaultwarden
               mountPath: /bitwarden/data
             - name: rclone-config
-              mountPath: /config/
+              mountPath: /config/rclone.conf
+              subPath: rclone.conf
+              readOnly: true
           env: 
           - name: CRON
             value: '0 6 * * *'
