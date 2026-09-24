@@ -27,7 +27,7 @@ spec:
             value: 'false'
           envFrom:
           - secretRef:
-            name: vaultwarden-admintoken
+              name: vaultwarden-admintoken
       initContainers:
         - name: vault-backup
           image: ttionya/vaultwarden-backup:1.27.1
@@ -44,7 +44,7 @@ spec:
             value: '7z'
           - name: ZIP_PASSWORD
             valueFrom:
-              secretRef: 
+              secretKeyRef: 
                 name: vaultwarden-secrets
                 key: zip_password
       volumes:
