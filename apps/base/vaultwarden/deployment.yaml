@@ -25,7 +25,7 @@ spec:
           - containerPort: 80
           env:
           - name: SIGNUPS_ALLOWED
-            value: 'false'
+            value: 'true'
           envFrom:
           - secretRef:
               name: vaultwarden-admintoken
