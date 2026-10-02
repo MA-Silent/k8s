@@ -42,7 +42,7 @@ spec:
               readOnly: true
           env: 
           - name: CRON
-            value: '0 6 * * *'
+            value: '5 * * * *'
           - name: ZIP_TYPE
             value: '7z'
           - name: RCLONE_GLOBAL_FLAG
