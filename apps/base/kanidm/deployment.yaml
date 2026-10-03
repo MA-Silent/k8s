@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kanidm
+  namespace: kanidm
+  labels:
+    app: kanidm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kanidm
+  template:
+    metadata:
+      labels:
+        app: kanidm
+    spec:
+      containers:
+        - name: kanidm
+          image: kanidm/server:1.11.2
+          volumeMounts:
+            - name: kanidmd
+              mountPath: /data
+            - name: config
+              mountPath: /data
+              readOnly: true
+          ports:
+          - containerPort: 8443
+          - containerPort: 3636
+      volumes:
+        - name: kanidmd
+          persistentVolumeClaim:
+            claimName: kanidmd-pvc
+        - name: config
+          configMap:
+            name: kanidm
+            items:
+            - key: "server.toml"
+              path: "server.toml"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kanidm
+spec:
+  selector:
+    app: kanidm
+  ports:
+    - port: 443
+      targetPort: 443
