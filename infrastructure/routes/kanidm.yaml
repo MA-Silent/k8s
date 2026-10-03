@@ -13,4 +13,4 @@ spec:
     - backendRefs:
         - name: kanidm
           namespace: kanidm
-          port: 8443
+          port: 443
