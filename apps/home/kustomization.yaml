@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../base/radar
   - ../base/vaultwarden
+  - ../base/kanidm
 patches:
 - path: radar-values.yaml
   target:
