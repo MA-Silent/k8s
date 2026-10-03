@@ -23,7 +23,8 @@ spec:
             - name: kanidmd
               mountPath: /data
             - name: config
-              mountPath: /data
+              mountPath: /data/server.toml
+              subPath: server.toml
               readOnly: true
           ports:
           - containerPort: 8443
