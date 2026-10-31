@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: purging/mitch-web:1.0.0
+        image: purging/mitch-web:1.0.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
