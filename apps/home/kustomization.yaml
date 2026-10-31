@@ -9,6 +9,3 @@ patches:
 - path: radar-values.yaml
   target:
     kind: HelmRelease
-- path: valkey-values.yaml
-  target:
-    kind: HelmRelease
