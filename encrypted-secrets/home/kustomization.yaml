@@ -5,3 +5,4 @@ resources:
   - vaultwarden-admintoken.yaml
   - vaultwarden-secrets.yaml
   - vw-rclone-config.yaml
+  - laperla.yaml

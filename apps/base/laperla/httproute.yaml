@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: laperla
+  namespace: laperla
+spec:
+  hostnames:
+  - laperla.kube.ruitenbeek.dev
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: shared-gateway
+    namespace: default
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - kind: Service
+      name: web
+      namespace: laperla
+      port: 80
+      weight: 1

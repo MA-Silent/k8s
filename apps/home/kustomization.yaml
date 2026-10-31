@@ -4,7 +4,11 @@ resources:
   - ../base/radar
   - ../base/vaultwarden
   - ../base/kanidm
+  - ../base/laperla
 patches:
 - path: radar-values.yaml
+  target:
+    kind: HelmRelease
+- path: valkey-values.yaml
   target:
     kind: HelmRelease

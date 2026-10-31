@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: laperla
+    namespace: laperla
+type: Opaque
+stringData:
+    APP_KEY: ENC[AES256_GCM,data:9dRneh9JYjSnNt4Sv5nBckTmqgYSVFeiIqyXEpsIs52CUL0hOywZir4eM0IO92ZZgUZL,iv:Jcyw30ui9L+K1Spl9BjjkVC7sV2uPA0PPbXAg88t+Hw=,tag:ebwrGNr3zVEZVrtWAD3ymQ==,type:str]
+    DB_PASSWORD: ENC[AES256_GCM,data:fOUcHZr4zBEM0L1l+shGHit89y8Ph4X3ezwP2yukyHkIEWI=,iv:GGFUPVnaX7CltJqPP2HkM9WR1NfzApWG3q4jGNzMbYc=,tag:A8iaQOnSliBCzwGYcSvKpQ==,type:str]
+    DB_ROOT_PASSWORD: ENC[AES256_GCM,data:rvGzW54TIqeamZPXIGn3fRy2RurDUOQRk3+XDfz3TJq3JYnt4Q==,iv:DOyCly+CFcix/7/Jp1rY1xmqd/ktlWteU4cGUArMYZY=,tag:55HUywolC2nFkIGUEU6tHQ==,type:str]
+sops:
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-10-31T14:14:15Z"
+    mac: ENC[AES256_GCM,data:ylZcSX7YzbPMdWHZPhiX2s9UciY9fUnqQXFqPRl9FTbP8Y+h+tDFzCyyEfBl822bfaP5MkOvJnl/YaxAVHovUFkFptajleqSB83Tl7Lu/1vPRyZmV5PedCid09ERB6VL96TePhW0s/Zoinsh7SpnchX86A1cSCLfqGsYjsNZ1Wc=,iv:D8fEsLC3dfIVENuu9T1gYWZiNoFen2/9LHQZ9fhDhLM=,tag:YrEdQ5itK2nHEdq4uPOSUw==,type:str]
+    pgp:
+        - created_at: "2026-10-31T14:14:15Z"
+          enc: |-
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA9/tRI0Ckh/2ARAAn/6mqbg+hodAuBiDP06Arhy/3iVcSiWhCbdVZQ23sU3k
+            cAUSVUDa7lziYbZm8VJJjQQq31BLMybpL6SavJVXlyn6fRpnDGOtSiR5hh84s6dR
+            yTpoeDuaHOLS7duFCn2EAYjvTTtMxq6aCjDDXouymiBijgJV3G/QScCh7nxkwzvf
+            if7Az/+o+LtZNWCjrhwXHjKnmAhGZxRGybweCwWTIIkc5Xq5mLMYdB8/9Ao8RVCi
+            pqx3V9koiM0AFIngRF8E9jkfnnX7+Utv/iV8GSuP7Cwo+jAC4pQ+QYhz6wrqewyj
+            norCx2NeIOJ0ShC/HGj23Qq/5ysziEZySA/hg7Jo9yNv66K8r/nwb3Z+v9aiOavl
+            trLNwMPQJVV89IFzmmQnWbf2A3os6AHm+/vYCOI2SeCb3+gvDVbJh9agHF0bQ8k9
+            fYRBbUWb5KIpo/6digwSzjRmwaysNDCcJPRYF3dhVGDj0ZW8zKZANIidlGBOYrhF
+            PX6+LmYmpYHeR7UayZKqKzKCHQqbB/GRqSR4tFNsdK46QNuJjjaNkOlpMvQ2ghQr
+            Y6voP+7WZBQAMOV0DM8IEb/Vl3J1In+5xHRNxUJShFMCUhxO1VHbdZ86A9mlFC7e
+            rXqJOKKYYNqHA0ThN5zxjy1suL9mO0mXqBQCGm9Y9O4RlgQSjRc0eVJSQdJ9zQDS
+            XgEvyvNgn3kP6U7mtf/AFpfxEtoZ4lsJG9agtd44vonGNEai3OAx/VewvxH+54es
+            m0wTMTnvkRt/qcvJKPJWZSR4TqkSp7pKJoS7+xMLzBRhjMnuAnq/wKJVKj8Dt2Y=
+            =xAeU
+            -----END PGP MESSAGE-----
+          fp: DDBB778AB55A1D87205700CBDDA211F23723E463
+    version: 3.13.3
